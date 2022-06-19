@@ -15,7 +15,7 @@ def generate_header():
         ),
 
         html.Div(
-            children='* data didapatkan dari pengumpulan informasi oleh calon penghuni dan penghuni Cendana Peak 3. Mohon digunakan dengan bijak.',
+            children='* data didapatkan dari pengumpulan informasi oleh calon penghuni dan penghuni Cendana Peak. Mohon digunakan dengan bijak.',
         ),
     ]
 
