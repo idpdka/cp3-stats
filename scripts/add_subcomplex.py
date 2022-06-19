@@ -12,4 +12,4 @@ if __name__ == "__main__":
     df['updated_at'] = df['updated_at'].astype('datetime64[ns]')
     df['deleted_at'] = df['deleted_at'].astype('datetime64[ns]')
 
-    df.to_sql('subcomplex', if_exists='replace', con=engine)
+    df.to_sql('subcomplex', if_exists='replace', con=engine, index='id')
