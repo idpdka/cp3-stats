@@ -42,8 +42,10 @@ def run_migrations_offline():
     """
     # url = config.get_main_option("sqlalchemy.url")
     url = os.getenv("DATABASE_URL")
+    new_url = url.replace("postgres", "postgresql")
+
     context.configure(
-        url=url,
+        url=new_url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -60,8 +62,9 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    database_url = os.getenv("DATABASE_URL")
-    connectable = create_engine(database_url)
+    url = os.getenv("DATABASE_URL")
+    new_url = url.replace("postgres", "postgresql")
+    connectable = create_engine(new_url)
 
     # connectable = engine_from_config(
     #     config.get_section(config.config_ini_section),
