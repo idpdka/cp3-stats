@@ -1,11 +1,19 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
-from dash import Dash, html, dcc
+from dash import Dash, callback, html, dcc
+import dash_bootstrap_components as dbc
 import plotly.express as px
+import numpy as np
 import pandas as pd
+import matplotlib as mpl
+import gunicorn
+from whitenoise import WhiteNoise
 
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+
+server = app.server
+server.wsgi_app = WhiteNoise(server.wsgi_app, root='static/')
 
 colors = {
     'background': '#111111',
@@ -45,7 +53,7 @@ fig.update_layout(
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
-        children='Cendana Peak 3',
+        children='Cendana Peak',
         style={
             'textAlign': 'center',
             'color': colors['text']
@@ -62,7 +70,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 
     html.Div(
         children='''
-            Dashboard ini berisi informasi statistik mengenai keberjalanan proyek Cendana Peak 3 di Lippo Karawaci.
+            Dashboard ini berisi informasi statistik mengenai keberjalanan proyek Cendana Peak di Lippo Karawaci.
         ''',
         style={
             'textAlign': 'center',
