@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     DATABASE_URL = os.environ['DATABASE_URL']
     if 'postgresql' not in DATABASE_URL:
-        DATABASE_URL = DATABASE_URL.replace('postges', 'postgresql') 
+        DATABASE_URL = DATABASE_URL.replace('postgres', 'postgresql') 
 
     if args.ssl:
         conn = create_engine(DATABASE_URL, echo=False)
