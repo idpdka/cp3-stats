@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 
-def generate_table(color, max_rows=10, data='https://gist.githubusercontent.com/chriddyp/c78bf172206ce24f77d6363a2d754b59/raw/c353e8ef842413cae56ae3920b8fd78468aa4cb2/usa-agricultural-exports-2011.csv'):
+def generate_table(style, max_rows=10, data='https://gist.githubusercontent.com/chriddyp/c78bf172206ce24f77d6363a2d754b59/raw/c353e8ef842413cae56ae3920b8fd78468aa4cb2/usa-agricultural-exports-2011.csv'):
     df = pd.read_csv(data)
 
-    return html.Table([
+    return html.Table(style=style, children=[
         html.Thead(
             html.Tr([html.Th(col) for col in df.columns])
         ),
