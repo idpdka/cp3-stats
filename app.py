@@ -19,7 +19,9 @@ server = app.server
 server.wsgi_app = WhiteNoise(server.wsgi_app, root='static/')
 
 DATABASE_URL = os.environ['DATABASE_URL']
-# conn = psycopg2.connect(DATABASE_URL)
+if 'postgresql' not in DATABASE_URL:
+        DATABASE_URL = DATABASE_URL.replace('postgres', 'postgresql') 
+
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 def create_dash_layout(app):
