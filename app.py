@@ -23,6 +23,7 @@ if 'postgresql' not in DATABASE_URL:
         DATABASE_URL = DATABASE_URL.replace('postgres', 'postgresql') 
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+# conn = psycopg2.connect(DATABASE_URL)
 
 def create_dash_layout(app):
     colors = {

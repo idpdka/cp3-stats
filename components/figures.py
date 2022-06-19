@@ -90,6 +90,7 @@ def generate_table(style, conn, page_size=25):
                 ON unit.subcomplex_id = subcomplex.id
     """
     df = sqlio.read_sql_query(query, conn)
+    df['Nomor Telepon'] = df['Nomor Telepon'].str.replace(r'[0-9-]+', lambda x: (len(x.group(0)[:-4]) * '*') + x.group(0)[-4:], regex=True)
 
     return dbc.Container([
         dbc.Label('Data Penghuni Cendana Peak', style=style['label']),
