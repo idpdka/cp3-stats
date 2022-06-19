@@ -1,100 +1,44 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
-
-from dash import Dash, callback, html, dcc
 import dash_bootstrap_components as dbc
-import plotly.express as px
-import numpy as np
-import pandas as pd
-import matplotlib as mpl
 import gunicorn
+from dash import Dash, callback, html
 from whitenoise import WhiteNoise
+from components.header_footer import generate_header, generate_footer
+from components.figures import generate_sample_bar_chart, generate_table
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 server = app.server
 server.wsgi_app = WhiteNoise(server.wsgi_app, root='static/')
 
-colors = {
-    'background': '#111111',
-    'text': '#7FDBFF'
-}
-
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-})
-
-df_table = pd.read_csv('https://gist.githubusercontent.com/chriddyp/c78bf172206ce24f77d6363a2d754b59/raw/c353e8ef842413cae56ae3920b8fd78468aa4cb2/usa-agricultural-exports-2011.csv')
-
-
-def generate_table(dataframe, max_rows=10):
-    return html.Table([
-        html.Thead(
-            html.Tr([html.Th(col) for col in dataframe.columns])
-        ),
-        html.Tbody([
-            html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-            ]) for i in range(min(len(dataframe), max_rows))
-        ])
+def create_dash_layout(app):
+    colors = {
+        'background': '#111111',
+        'text': '#7FDBFF'
+    }
+    
+    # Set browser tab title
+    app.title = "Your app title" 
+    
+    # Header
+    header = html.Div(generate_header(colors))
+    
+    # Body 
+    body = html.Div([
+        generate_sample_bar_chart(colors),
+        generate_table(colors)
     ])
 
-fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
+    # Footer
+    footer = html.Div(generate_footer(colors))
+    
+    # Assemble dash layout 
+    app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[header, body, footer])
 
-fig.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text']
-)
+    return app
 
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
-    html.H1(
-        children='Cendana Peak',
-        style={
-            'textAlign': 'center',
-            'color': colors['text']
-        }
-    ),
-
-    html.H2(
-        children='The Statistics',
-        style={
-            'textAlign': 'center',
-            'color': colors['text']
-        }
-    ),
-
-    html.Div(
-        children='''
-            Dashboard ini berisi informasi statistik mengenai keberjalanan proyek Cendana Peak di Lippo Karawaci.
-        ''',
-        style={
-            'textAlign': 'center',
-            'color': colors['text']
-        }
-    ),
-
-    html.Div(
-        children='''
-            * data didapatkan dari pengumpulan informasi oleh calon penghuni dan penghuni Cendana Peak 3. Mohon digunakan dengan bijak.
-        ''',
-        style={
-            'textAlign': 'center',
-            'color': colors['text']
-        }
-    ),
-
-    dcc.Graph(
-        id='example-graph',
-        figure=fig
-    ),
-
-    generate_table(df_table)
-])
+create_dash_layout(app)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
