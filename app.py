@@ -19,22 +19,22 @@ def create_dash_layout(app):
     }
     
     # Set browser tab title
-    app.title = "Your app title" 
+    app.title = "Cendana Peak Statistics" 
     
     # Header
-    header = html.Div(generate_header(colors))
+    header = html.Div(style={'textAlign': 'center', 'color': colors['text']}, children=generate_header())
     
     # Body 
     body = html.Div([
         generate_sample_bar_chart(colors),
-        generate_table(colors)
+        generate_table({'textAlign': 'center', 'color': colors['text']})
     ])
 
     # Footer
-    footer = html.Div(generate_footer(colors))
+    footer = html.Div(style={'textAlign': 'center', 'color': colors['text']}, children=generate_footer())
     
     # Assemble dash layout 
-    app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[header, body, footer])
+    app.layout = html.Div(style={'textAlign': 'center', 'backgroundColor': colors['background']}, children=[header, body, footer])
 
     return app
 
