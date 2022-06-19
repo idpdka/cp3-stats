@@ -11,6 +11,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 server = app.server
 server.wsgi_app = WhiteNoise(server.wsgi_app, root='static/')
+# app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://username@localhost:5432/cp-stats"
 
 def create_dash_layout(app):
     colors = {
